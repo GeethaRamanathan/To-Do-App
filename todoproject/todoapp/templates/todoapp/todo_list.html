@@ -1,0 +1,37 @@
+{% extends "todoapp/base.html"%}
+{%block content %}
+
+<div class="container w-50">
+    <a href="{% url 'todo_create'%}" ><i class='fas fa-plus-circle' style='font-size:40px;color:#26f081'></i></a><hr>
+    {% for todo in object_list %}
+    <div class="row m-1">
+        <div class="col-md-9">
+            <div class="d-inline-flex p-2" style="font-size:20px;"><a href="{%url 'todo_detail' todo.id%}">{{todo.task}}</a></div>
+        </div>
+        <div class="col-md-3">
+            <div class="d-flex flex-row">
+                {% if todo.is_completed %}
+                <form method="POST" action="{% url 'todo_incomplete' todo.id %}">
+                    {% csrf_token %}
+                    <div class="p-2"><button class="btn btn-link"><i class='fas fa-check-circle' style='font-size:25px;color:#26f081'></i></button></div>
+                </form>
+                <form method="post" action="{% url 'todo_delete' todo.id%}">
+                    {% csrf_token %}
+                    <div class="p-2"><button class="btn btn-link"><i class='fas fa-trash-alt' style='font-size:25px;color:red'></i></button></div>
+                </form>
+                {% else %}
+                    <form method="POST" action="{% url 'todo_complete' todo.id %}">
+                        {% csrf_token %}
+                        <div class="p-2"><button class="btn btn-link"><i class='fas fa-times-circle' style='font-size:25px;color:red'></i></div>
+                    </form>
+                    <form method="GET" action="{%url 'todo_update' todo.id%}">
+                        <div class="p-2"><button class="btn btn-link"><i class='fas fa-pencil-alt' style='font-size:25px;color:#f0dc26'></i></button></div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div><hr>
+    {% endfor %}
+</div>
+{% endblock %}
+

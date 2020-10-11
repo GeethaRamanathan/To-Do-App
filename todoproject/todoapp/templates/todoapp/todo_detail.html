@@ -1,0 +1,78 @@
+{% extends "todoapp/base.html"%}
+{%block content %}
+<div class="container w-50">
+<div class="card text-center">
+  <div class="card-header">
+    {% if todo.is_completed%}
+    <em>{{todo.task}}</em>
+    {% else %}
+      <h5>{{todo.task}}</h5>
+    {%endif%}
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{todo.description}}</p>
+    <div class="d-flex flex-row justify-content-center">
+        {% if todo.is_completed %}
+        <form method="POST" action="{% url 'todo_incomplete' todo.id %}">
+            {% csrf_token %}
+            <div class="p-2"><button class="btn btn-link"><i class='fas fa-check-circle' style='font-size:25px;color:#26f081'></i></button></div>
+        </form>
+        <form method="post" action="{% url 'todo_delete' todo.id%}">
+            {% csrf_token %}
+            <div class="p-2"><button class="btn btn-link"><i class='fas fa-trash-alt' style='font-size:25px;color:red'></i></button></div>
+        </form>
+        {% else %}
+        <form method="POST" action="{% url 'todo_complete' todo.id %}">
+            {% csrf_token %}
+            <div class="p-2"><button class="btn btn-link"><i class='fas fa-times-circle' style='font-size:25px;color:red'></i></div>
+        </form>
+        <form method="GET" action="{%url 'todo_update' todo.id%}">
+            <div class="p-2"><button class="btn btn-link"><i class='fas fa-pencil-alt' style='font-size:25px;color:#f0dc26'></i></button></div>
+        </form>
+        {% endif %}
+        <form method="get" action="{% url 'todo_list'%}">
+            {% csrf_token %}
+            <div class="p-2"><button class="btn btn-link"><i class='fas fa-thumbs-up' style='font-size:25px;color:#329da8'></i></button></div>
+        </form>
+            </div>
+  </div>
+  <div class="card-footer text-muted">
+    {{todo.task_time}}
+  </div>
+</div>
+</div>
+{% endblock %}
+
+<!--{% if todo.is_completed%}-->
+<!--<h1><em>{{todo.task}}</em></h1>-->
+<!--{% else %}-->
+<!--<h1>{{todo.task}}</h1>-->
+<!--{%endif%}-->
+
+<!--<h2>{{todo.task_time}}</h2>-->
+<!--<h3>{{todo.description}}</h3>-->
+
+<!--<form method="GET" action="{%url 'todo_update' todo.id%}">-->
+    <!--<button type="submit">Edit</button>-->
+<!--</form>-->
+
+<!--{% if todo.is_completed %}-->
+    <!--<form method="POST" action="{% url 'todo_incomplete' todo.id %}">-->
+        <!--{% csrf_token %}-->
+        <!--<button type="submit">InComplete</button>-->
+        <!--<form method="post" action="{% url 'todo_delete' todo.id%}">-->
+            <!--{% csrf_token %}-->
+            <!--<input type="submit" value="Delete">-->
+        <!--</form>-->
+    <!--</form>-->
+<!--{% else %}-->
+    <!--<form method="POST" action="{% url 'todo_complete' todo.id %}">-->
+        <!--{% csrf_token %}-->
+        <!--<button type="submit">Complete</button>-->
+    <!--</form>-->
+<!--{% endif %}-->
+
+<!--<form method="get" action="{% url 'todo_list'%}">-->
+    <!--{% csrf_token %}-->
+    <!--<input type="submit" value="OK">-->
+<!--</form>-->
